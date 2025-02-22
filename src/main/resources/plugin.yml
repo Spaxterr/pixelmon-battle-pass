@@ -1,0 +1,6 @@
+name: PixelBattlePass
+version: '${version}'
+main: dev.spaxter.pixeltasktypes.PixelBattlePass
+api-version: '1.16'
+load: POSTWORLD
+depend: [BattlePass]

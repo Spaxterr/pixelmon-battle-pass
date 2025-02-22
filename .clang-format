@@ -1,0 +1,53 @@
+---
+Language: Java
+BasedOnStyle: Google
+
+# Basic formatting
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+MaxEmptyLinesToKeep: 1
+
+# Braces and Blocks
+BreakBeforeBraces: Attach
+AllowShortBlocksOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+IndentCaseLabels: true
+
+# Alignment and Spacing
+AlignAfterOpenBracket: Align
+AlignOperands: true
+AlignTrailingComments: true
+SpaceAfterCStyleCast: true
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+AlignEscapedNewlines: Left
+
+# Line Breaks
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackParameters: false
+BinPackArguments: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakConstructorInitializers: BeforeColon
+
+# Comments
+ReflowComments: true
+CommentPragmas: '^ IWYU pragma:'
+
+# Java-specific
+JavaImportGroups: ['net', 'com', 'dev', 'io', 'java', 'javax', 'org']
+SortIncludes: true
+BreakAfterJavaFieldAnnotations: true
+
+# Indentation
+IndentWrappedFunctionNames: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+---

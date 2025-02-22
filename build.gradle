@@ -1,0 +1,152 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.guardsquare:proguard-gradle:7.6.1'
+    }
+}
+
+plugins {
+    id 'eclipse'
+    id 'java'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'net.kyori.blossom' version '1.3.1'
+}
+
+base {
+    archivesName = mod_id
+}
+
+import proguard.gradle.ProGuardTask
+group = 'dev.spaxter'
+version = '1.0-beta'
+
+configurations {
+    proguardConfig {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url = 'https://maven.izzel.io/releases'
+    }
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+    flatDir {
+        dirs "libs"
+    }
+}
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+        client {}
+        server {
+            args '--nogui'
+        }
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.34"
+    compileOnly 'com.pixelmonmod.api:Pixelmon:1.16.5-9.1.12-universal'
+    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    compileOnly 'io.izzel.arclight:arclight-forge-1.16:1.0.25:spigot'
+    compileOnly 'io.github.battlepass:BattlePass:4.1.6'
+}
+
+def targetJavaVersion = 17
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+    }
+}
+
+tasks.register('proguard', proguard.gradle.ProGuardTask) {
+    dependsOn jar
+
+    injars file("${buildDir}/libs/${project.name}-${project.version}.jar")
+    outjars file("${buildDir}/libs/${project.name}-obfuscated.jar")
+
+    libraryjars files(System.getProperty("java.home") + "/jmods/")
+    libraryjars files("./libs")
+
+    configuration file('proguard.pro')
+
+    printmapping file("${buildDir}/proguard/mapping.txt")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.incremental = true
+    options.fork = true
+    options.failOnError = true
+
+    if (targetJavaVersion >= 17) {
+        options.compilerArgs += ['--enable-preview']
+    }
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+processResources {
+    def props = [
+        version: version,
+        group: project.group,
+        name: project.name
+    ]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    includeEmptyDirs = false
+}
+
+jar {
+    manifest {
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': project.group,
+            'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+            'Created-By': "Gradle ${gradle.gradleVersion}",
+        )
+    }
+}
+
+tasks.build.dependsOn tasks.proguard
