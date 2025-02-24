@@ -32,7 +32,17 @@ public final class PixelBattlePass extends JavaPlugin {
         this.registerActions();
     }
 
-    private void registerEvents() {
+    private void registerActions() {
+        LOGGER.info("Registering actions...");
+        ActionRegistry actionRegistry = BattlePlugin.getPlugin().getActionRegistry();
+
+        actionRegistry.quest(CatchAction::new);
+        actionRegistry.quest(DefeatWildAction::new);
+        actionRegistry.quest(EvolveAction::new);
+        actionRegistry.quest(FishingAction::new);
+        actionRegistry.quest(HatchingAction::new);
+
+        LOGGER.info("Registered all actions successfully!");
     }
 
     private boolean checkArclight() {
