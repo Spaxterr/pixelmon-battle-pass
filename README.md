@@ -1,183 +1,137 @@
-PixelTaskTypes is a Spigot plugin developed for Arclight servers, enabling integration of Pixelmon specific tasks and events for [LMBishop's Quests plugin](https://github.com/LMBishop/Quests). With this plugin, server owners can create endless combinations of engaging and challenging quests for their Pixelmon servers.
+# Pixelmon Battle Pass
+## Overview
+This plugin bridges the gap between the popular Pixelmon mod and AdvancedPlugins Battle Pass, allowing server administrators to create quests and challenges based on Pixelmon activities. Players can now earn Battle Pass progress and rewards by completing Pixelmon-related tasks such as catching Pokémon, winning battles, evolving Pokémon, hatching eggs, and more.
+
 ## Features
-* Seamless integration with Pixelmon and LMBishop's Quests
-* Support for multiple task types, including catching, defeating, evolving and hatching Pokémon.
-* Highly customizable task configurations.
-* Simple installation, no additional configuration required.
-## Dependencies
-* [Arclight Forge](https://github.com/IzzelAliz/Arclight/releases/tag/1.16%2F1.0.25) for Minecraft 1.16.5
-* [Pixelmon for 1.16.5](https://reforged.gg/)
-* [LMBishop's Quests](https://github.com/LMBishop/Quests/releases) (minimum v3.15.2)
+* **Pixelmon Quests**: Create battle pass quests for:
+    * Catching Pokémon
+    * Defeating Pokémon
+    * Evolving Pokémon
+    * Hatching eggs
+    * Fishing
+
+## Requirements
+* Spigot for 1.16.5
+* Pixelmon 9.1.12 or later
+* Arclight for 1.16.5
+* AdvancedPlugins 9.2.6 or later
+
 ## Installation
-* Place the `pixeltasktypes-{version}.jar` file in your Arclight server's `plugins` folder.
-* Start/Restart the server.
-* All done!
+- Ensure you have Pixelmon and Battle Pass properly installed on your server
+- Download the latest release JAR file from the releases page
+- Place the JAR file in your server's `plugins` folder
+- Restart your server
+
+
 ## Configuration
-PixelTaskTypes has no configuration of its own, it instead extends LMBishop's Quests with additional task types to allow Pixelmon related quests to be created. Please refer to [their documentation](https://quests.leonardobishop.com/configuration/) for a full configuration setup.
+All Pokémon related quests can be configured to check for specific Pixelmon specifications on the target Pokémon. This is done by setting `variable.root` to `none` and providing a list of acceptable specs to the `variable.specs` field.
 
-The section below will showcase and explain the added task types. As this is just an extension, all existing quest configuration can be combined with the Pixelmon tasks to create even more diverse and unique quests.
-### All Pixelmon Task Types
-These fields are available for all Pixelmon-related tasks.
+The specs are evaluated using **OR** logic. This means that every item provided in `variable.specs` will be matched against the target Pokémon, and if any one of them are true, the quest will progress.
 
-**Note**: Certain combinations can make a task impossible to complete. For example, setting `species` to `Pikachu` and `legendary_only` to `true` creates an invalid task, as Pikachu is not a legendary Pokémon and thus the progression criteria can never be met.
-#### Required
-* `amount` - Number of times the task must be completed.
-#### Optional
-* `species` - List of Pokémon species that count toward progress.
-* `not_species` - List of Pokémon species that will not count toward progress.
-* `pokemon_types` - List of Pokémon types that count toward progress.
-* `palettes` - List of Pokémon palettes that count toward progress. (See the [Pixelmon Wiki](https://pixelmonmod.com/wiki/Form_indices) for available palettes.)
-* `legendary_only` - If `true`, only legendary Pokémon count toward progress.
-* `pokemon_level` - Minimum level required for Pokémon to count.
-
-### Catch Pokémon
-Progress is made by catching Pokémon with Pokéballs.
-#### Optional
-* `poke_balls` - A list of Pokéballs that need to be used to progress the task.
-#### Simple Example
-Catch 20 Pokémon, no additional requirements.
-```yml
-type: "catch_pokemon"
-amount: 20
-```
-#### Advanced Example
-Catch a legendary Pokémon using a park ball or a master ball, not counting Articuno, Zapdos, or Moltres.
-```yml
-type: "catch_pokemon"
-amount: 1
-legendary_only: true
-poke_balls:
-    - "master_ball"
-    - "park_ball"
-not_species:
-    - "articuno"
-    - "zapdos"
-    - "moltres"
-```
-### Defeat Pokémon
-Progress is made by defeating Pokémon in battles.
-#### Optional
-* `wild_only` - If `true`, only wild Pokémon count.
-* `pvp_only` - If `true`, only Pokémon defeated in PvP battles count.
-#### Simple Example
-Defeat 20 Pokémon, either in the wild or in PvP.
-```yml
-type: "defeat_pokemon"
-amount: 20
-```
-#### Advanced Example
-Defeat 10 Fire or Ice type Pokémon in the wild that are level 30 or higher.
-```yml
-type: "defeat_pokemon"
-amount: 10
-wild_only: true
-pokemon_types:
-    - "fire"
-    - "ice"
-level: 30
+For example:
+```yaml
+variable:
+    root: none
+    specs:
+        - "species:rattata"
+        - "type:fire shiny:true nature:bold"
 ```
 
-### Evolve Pokémon
-Progress is made by evolving Pokémon.
-#### Optional
-* `evolution_types` - Specify required evolution methods. Options:
-    * `leveling` - Evolve through leveling up.
-    * `interact` - Evolve via items (e.g., Leaf Stone).
-    * `ticking` - *Honestly no idea, haven't found a pokémon that uses this yet*
-    * `trade` - Evolve through trading.
-#### Simple Example
-Evolve 5 Pokémon.
-```yml
-type: "evolve_pokemon"
-amount: 5
-```
-#### Advanced Example
-Evolve 3 Pokémon through leveling or trading.
-```yml
-type: "evolve_pokemon"
-amount: 3
-evolution_types:
-    - "leveling"
-    - "trading"
-```
-### Hatch Eggs
-Progress is made by hatching Pokémon eggs.
-#### Simple Example
-Hatch 10 eggs.
-```yml
-type: "hatch_egg"
-amount: 10
-```
-#### Advanced Example
-Hatch a shiny Zorua or Eevee from an egg.
-```yml
-type: "hatch_egg"
-amount: 1
-palettes:
-    - "shiny"
-species:
-    - "eevee"
-    - "zorua"
+This will create a quest that is progressed if the target Pokémon is either a Rattata, or a shiny fire type Pokémon with the **bold** nature.
+
+## Available specification patterns
+All available specs are listed [here](https://pixelmonmod.com/wiki/Pokemon_spec), however these are the ones that may be commonly used for quests:
+- `species:<species>` - The Pokémon species name (e.g., pikachu, charizard)
+- `type:<type>` - The Pokémon type (e.g., fire, water, electric)
+- `level:<level range>` - The Pokémon's level (can use ranges like `level:5-10`)
+- `shiny:<true/false>` - Whether the Pokémon is shiny (true/false)
+- `gender:<gender>` - The Pokémon's gender (male/female/none)
+- `nature:<nature>` - The Pokémon's nature (e.g., bold, timid, jolly)
+- `ability:<ability>` - The Pokémon's ability (e.g., static, blaze)
+- `form:<form>` - For Pokémon with multiple forms (e.g., alolan, galarian)
+
+These can be combined in the same specification, separated by spaces.
+### Catching
+Triggers when a player catches a wild Pokémon.
+
+**Example quest: Catch shiny Pikachu**
+Catch a shiny Pikachu.
+```yaml
+name: 'Shiny Mascot Collector'
+type: pixelmon_catch
+variable:
+    root: none
+    specs:
+        - "species:pikachu shiny:true"
+required-progress: 1
 ```
 
-### Fishing Pokémon
-Progress is made by reeling in Pokémon when fishing.
-#### Simple Example
-Catch 10 Pokémon when fishing
-```yml
-type: "fish_pokemon"
-amount: 10
-```
-#### Advanced Example
-Catch 5 Magikarp using an old rod or a good rod
-```yml
-type: "fish_pokemon"
-amount: 5
-species:
-    - "magikarp"
-rods:
-    - "old_rod"
-    - "good_rod"
+#### Defeating Wild
+Triggers when a player defeats a Pokémon in the wild.
+
+**Example quest: Defeat Dragon-type Pokémon**  
+Defeat 20 dragon-type Pokémon.
+```yaml
+name: 'Dragon Slayer'
+type: pixelmon_defeat_wild
+variable:
+    root: none
+    specs:
+        - "type:dragon"
+required-progress: 20
 ```
 
-### Cleaning Fossils
-Progress is made by cleaning fossils using a fossil cleaning machine.
+#### Evolving
+Triggers when a player's Pokémon evolves into a new form.
 
-Note that because cleaning a fossil does not produce an actual Pokémon, the Pokémon requirements such as species, level, palette etc. will not work for this task type.
+**Example quest: Evolve Fire-type Pokémon**  
+Evolve Eevee into three different evolutions of your choice.
+```yaml
+name: 'Eevee Evolution Master'
+type: pixelmon_evolve
+variable:
+    root: none
+    specs:
+        - "species:vaporeon"
+        - "species:jolteon"
+        - "species:flareon"
+        - "species:espeon"
+        - "species:umbreon"
+        - "species:leafeon"
+        - "species:glaceon"
+        - "species:sylveon"
+required-progress: 3
+```
 
-#### Optional
-* `fossil_types` - Specify a list of fossil types that will count towards progress. (See [Fossils](https://pixelmonmod.com/wiki/Fossils) for a list of available types. The type should be specified with "Fossil" excluded)
-#### Simple Example
-Clean 10 fossils
+#### Hatching
+Triggers when a player hatches a Pokémon from an egg.
+
+**Example quest: Hatch starters**
+Hatch 4 random starter Pokémon eggs with at least one being from each generation (I-IV)
 ```yml
-type: "clean_fossils"
-amount: 10
-```
-#### Advanced Example
-Clean 5 Amber or Helix fossils
-```yml
-type: "clean_fossils"
-amount: 5
-fossil_types:
-    - "amber"
-    - "helix"
+name: 'Starter Surprise'
+type: pixelmon_hatch
+variable:
+    root: none
+    specs:
+        - "species:bulbasaur,charmander,squirtle"
+        - "species:chikorita,cyndaquil,totodile"
+        - "species:treecko,torchic,mudkip"
+        - "species:turtwig,chimchar,piplup"
+required-progress: 4
 ```
 
-### Using Moves
-Progress is made by using moves in battle.
-#### Optional
-* `moves` - Specify a list of moves that will count towards progress.
-#### Simple Example
-Use 10 moves in battle
+#### Fishing
+Triggers when a player fishes up a Pokémon.
+
+**Example Quest: Reel in 5 Magikarp**
+Catch 5 Magikarp.
 ```yml
-type: "use_moves"
-amount: 10
-```
-#### Advanced Example
-Use sucker punch 15 times
-```yml
-type: "use_moves"
-amount: 15
-moves:
-    - "sucker_punch"
+name: 'Karp for Dinner'
+type: pixelmon_fish
+variable:
+    root: none
+    specs:
+        - "species:magikarp"
+required-progress: 5
 ```
