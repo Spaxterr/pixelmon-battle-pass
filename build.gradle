@@ -79,7 +79,7 @@ dependencies {
     compileOnly 'com.pixelmonmod.api:Pixelmon:1.16.5-9.1.12-universal'
     compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
     compileOnly 'io.izzel.arclight:arclight-forge-1.16:1.0.25:spigot'
-    compileOnly 'io.github.battlepass:BattlePass:4.1.6'
+    compileOnly files('libs/BattlePass-4.9.2.jar')
 }
 
 def targetJavaVersion = 17
