@@ -43,8 +43,10 @@ This will create a quest that is progressed if the target Pokémon is either a R
 All available specs are listed [here](https://pixelmonmod.com/wiki/Pokemon_spec), however these are the ones that may be commonly used for quests:
 - `species:<species>` - The Pokémon species name (e.g., pikachu, charizard)
 - `type:<type>` - The Pokémon type (e.g., fire, water, electric)
-- `level:<level range>` - The Pokémon's level (can use ranges like `level:5-10`)
-- `shiny:<true/false>` - Whether the Pokémon is shiny (true/false)
+- `minlevel:<min level>` - The Pokémon's minimum level
+- `maxlevel:<max level>` - The Pokémon's maximum level
+- `shiny:<true/false>` - Whether the Pokémon is shiny
+- `legendary:<true/false>` - Whether the Pokémon is a legendary Pokémon
 - `gender:<gender>` - The Pokémon's gender (male/female/none)
 - `nature:<nature>` - The Pokémon's nature (e.g., bold, timid, jolly)
 - `ability:<ability>` - The Pokémon's ability (e.g., static, blaze)
@@ -70,14 +72,14 @@ required-progress: 1
 Triggers when a player defeats a Pokémon in the wild.
 
 **Example quest: Defeat Dragon-type Pokémon**  
-Defeat 20 dragon-type Pokémon.
+Defeat 20 dragon-type Pokémon that are level 30 or higher.
 ```yaml
 name: 'Dragon Slayer'
 type: pixelmon_defeat_wild
 variable:
     root: none
     specs:
-        - "type:dragon"
+        - "type:dragon minlevel:30"
 required-progress: 20
 ```
 
