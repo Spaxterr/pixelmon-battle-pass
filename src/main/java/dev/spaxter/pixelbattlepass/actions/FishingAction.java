@@ -31,7 +31,6 @@ public class FishingAction extends PixelmonActionContainer {
 
         if (event.optEntity.get() instanceof PixelmonEntity pokemonEntity) {
             String rod = event.getRodType().toString().toLowerCase();
-            PixelBattlePass.LOGGER.info(rod);
             Player player = ArclightUtils.getBukkitPlayer(event.player.getUUID());
             super.executionBuilder("fish")
                 .canBeAsync()
