@@ -28,7 +28,7 @@ public class FishingAction extends PixelmonActionContainer {
 
         if (event.optEntity.get() instanceof PixelmonEntity pokemonEntity) {
             Pokemon pokemon = pokemonEntity.getPokemon();
-            this.progressWithPokemon("evolve", pokemon, event.player);
+            this.progressWithPokemon("fish", pokemon, event.player);
         }
     }
 }

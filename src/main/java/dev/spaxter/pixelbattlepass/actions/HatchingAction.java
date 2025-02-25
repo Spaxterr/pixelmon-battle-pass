@@ -22,6 +22,6 @@ public class HatchingAction extends PixelmonActionContainer {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onHatch(final EggHatchEvent.Post event) {
         Pokemon pokemon = event.getPokemon();
-        this.progressWithPokemon("evolve", pokemon, event.getPlayer());
+        this.progressWithPokemon("hatch", pokemon, event.getPlayer());
     }
 }
