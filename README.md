@@ -71,7 +71,7 @@ required-progress: 1
 #### Defeating Wild
 Triggers when a player defeats a Pokémon in the wild.
 
-**Example quest: Defeat Dragon-type Pokémon**  
+**Example quest: Defeat Dragon-type Pokémon**
 Defeat 20 dragon-type Pokémon that are level 30 or higher.
 ```yaml
 name: 'Dragon Slayer'
@@ -86,7 +86,7 @@ required-progress: 20
 #### Evolving
 Triggers when a player's Pokémon evolves into a new form.
 
-**Example quest: Evolve Fire-type Pokémon**  
+**Example quest: Evolve Fire-type Pokémon**
 Evolve Eevee into three different evolutions of your choice.
 ```yaml
 name: 'Eevee Evolution Master'
@@ -125,9 +125,14 @@ required-progress: 4
 
 #### Fishing
 Triggers when a player fishes up a Pokémon.
+Also supports a `rod` variable to limit the quest progress to a specific fishing rod.
+Possible values are:
+* `oldrod`
+* `goodrod`
+* `superrod`
 
 **Example Quest: Reel in 5 Magikarp**
-Catch 5 Magikarp.
+Catch 5 Magikarp with a good rod.
 ```yml
 name: 'Karp for Dinner'
 type: pixelmon_fish
@@ -135,5 +140,6 @@ variable:
     root: none
     specs:
         - "species:magikarp"
+    rod: goodrod
 required-progress: 5
 ```
