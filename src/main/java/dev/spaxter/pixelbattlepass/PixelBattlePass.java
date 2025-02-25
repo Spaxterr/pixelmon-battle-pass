@@ -1,8 +1,6 @@
 package dev.spaxter.pixelbattlepass;
 
-import java.util.logging.Logger;
-
-import org.bukkit.plugin.java.JavaPlugin;
+import net.advancedplugins.bp.impl.actions.ActionRegistry;
 
 import dev.spaxter.pixelbattlepass.actions.CatchAction;
 import dev.spaxter.pixelbattlepass.actions.DefeatWildAction;
@@ -10,8 +8,12 @@ import dev.spaxter.pixelbattlepass.actions.EvolveAction;
 import dev.spaxter.pixelbattlepass.actions.FishingAction;
 import dev.spaxter.pixelbattlepass.actions.HatchingAction;
 import dev.spaxter.pixelbattlepass.util.Resources;
+
 import io.github.battlepass.BattlePlugin;
-import net.advancedplugins.bp.impl.actions.ActionRegistry;
+
+import java.util.logging.Logger;
+
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Pixel Task Types main class.
@@ -19,7 +21,6 @@ import net.advancedplugins.bp.impl.actions.ActionRegistry;
  * @author Spaxter
  */
 public final class PixelBattlePass extends JavaPlugin {
-
     public static JavaPlugin PLUGIN;
     public static Logger LOGGER;
 
@@ -27,6 +28,14 @@ public final class PixelBattlePass extends JavaPlugin {
     public void onEnable() {
         PLUGIN = (JavaPlugin) this;
         LOGGER = this.getLogger();
+
+        if (!this.checkArclight()) {
+            LOGGER.warning("Could not detect Arclight, Pixelmon Battle Pass will not work without it.");
+        }
+        if (!this.checkPixelmon()) {
+            LOGGER.warning("Could not detect Pixelmon, Pixelmon Battle Pass will not work without it.");
+        }
+
         String art = Resources.readAsString(this.getResource("art.txt"));
         this.getLogger().info("\n" + art);
         this.registerActions();
