@@ -1,5 +1,6 @@
 package dev.spaxter.pixelbattlepass.actions;
 
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.pixelmonmod.pixelmon.api.events.BeatWildPixelmonEvent;
@@ -18,7 +19,7 @@ public class DefeatWildAction extends PixelmonActionContainer {
     /**
      * Runs when a Pokémon is successfully captured.
      */
-    @SubscribeEvent()
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPokemonDefeat(final BeatWildPixelmonEvent event) {
         Pokemon pokemon = event.wpp.getFaintedPokemon().pokemon;
         this.progressWithPokemon("defeat_wild", pokemon, event.player);

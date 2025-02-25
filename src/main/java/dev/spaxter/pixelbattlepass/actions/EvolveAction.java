@@ -1,5 +1,6 @@
 package dev.spaxter.pixelbattlepass.actions;
 
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.pixelmonmod.pixelmon.api.events.EvolveEvent;
@@ -18,7 +19,7 @@ public class EvolveAction extends PixelmonActionContainer {
     /**
      * Runs when a Pokémon is successfully captured.
      */
-    @SubscribeEvent()
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPokemonEvolve(final EvolveEvent.Post event) {
         Pokemon pokemon = event.getPokemon();
         this.progressWithPokemon("evolve", pokemon, event.getPlayer());
