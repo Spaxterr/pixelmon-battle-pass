@@ -6,6 +6,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import com.pixelmonmod.pixelmon.api.events.BeatWildPixelmonEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 
+import dev.spaxter.pixelbattlepass.util.ArclightUtils;
+
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -22,6 +25,13 @@ public class DefeatWildAction extends PixelmonActionContainer {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPokemonDefeat(final BeatWildPixelmonEvent event) {
         Pokemon pokemon = event.wpp.getFaintedPokemon().pokemon;
-        this.progressWithPokemon("defeat_wild", pokemon, event.player);
+        Player player = ArclightUtils.getBukkitPlayer(event.player.getUUID());
+
+        super.executionBuilder("defeat_wild")
+            .canBeAsync()
+            .player(player)
+            .subRoot("specs", this.specs(pokemon))
+            .progressSingle()
+            .buildAndExecute();
     }
 }

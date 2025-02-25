@@ -6,6 +6,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 
+import dev.spaxter.pixelbattlepass.util.ArclightUtils;
+
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -21,7 +24,14 @@ public class CatchAction extends PixelmonActionContainer {
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPokemonCatch(final CaptureEvent.SuccessfulCapture event) {
+        Player player = ArclightUtils.getBukkitPlayer(event.getPlayer().getUUID());
         Pokemon pokemon = event.getPokemon().getPokemon();
-        this.progressWithPokemon("catch", pokemon, event.getPlayer());
+
+        super.executionBuilder("catch")
+            .canBeAsync()
+            .player(player)
+            .subRoot("specs", this.specs(pokemon))
+            .progressSingle()
+            .buildAndExecute();
     }
 }
