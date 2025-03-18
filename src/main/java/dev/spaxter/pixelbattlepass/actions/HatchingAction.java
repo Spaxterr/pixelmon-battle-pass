@@ -20,7 +20,7 @@ public class HatchingAction extends PixelmonActionContainer {
     }
 
     /**
-     * Runs when a Pokémon is successfully captured.
+     * Runs when a Pokémon egg is hatched.
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onHatch(final EggHatchEvent.Post event) {

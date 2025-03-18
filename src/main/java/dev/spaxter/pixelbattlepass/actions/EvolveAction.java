@@ -20,7 +20,7 @@ public class EvolveAction extends PixelmonActionContainer {
     }
 
     /**
-     * Runs when a Pokémon is successfully captured.
+     * Runs when a Pokémon is evolved.
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPokemonEvolve(final EvolveEvent.Post event) {

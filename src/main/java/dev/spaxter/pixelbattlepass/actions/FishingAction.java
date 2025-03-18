@@ -6,7 +6,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import com.pixelmonmod.pixelmon.api.events.FishingEvent;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 
-import dev.spaxter.pixelbattlepass.PixelBattlePass;
 import dev.spaxter.pixelbattlepass.util.ArclightUtils;
 
 import org.bukkit.entity.Player;
@@ -21,7 +20,7 @@ public class FishingAction extends PixelmonActionContainer {
     }
 
     /**
-     * Runs when a Pokémon is successfully captured.
+     * Runs when a Pokémon is reeled in with a fishing rod.
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onFishingReel(final FishingEvent.Reel event) {
