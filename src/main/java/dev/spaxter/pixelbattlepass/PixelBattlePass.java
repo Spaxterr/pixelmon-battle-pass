@@ -3,10 +3,14 @@ package dev.spaxter.pixelbattlepass;
 import net.advancedplugins.bp.impl.actions.ActionRegistry;
 
 import dev.spaxter.pixelbattlepass.actions.CatchAction;
+import dev.spaxter.pixelbattlepass.actions.CleanFossilAction;
+import dev.spaxter.pixelbattlepass.actions.CraftAction;
+import dev.spaxter.pixelbattlepass.actions.DefeatPvpAction;
 import dev.spaxter.pixelbattlepass.actions.DefeatWildAction;
 import dev.spaxter.pixelbattlepass.actions.EvolveAction;
 import dev.spaxter.pixelbattlepass.actions.FishingAction;
 import dev.spaxter.pixelbattlepass.actions.HatchingAction;
+import dev.spaxter.pixelbattlepass.actions.MoveAction;
 import dev.spaxter.pixelbattlepass.util.Resources;
 
 import io.github.battlepass.BattlePlugin;
@@ -46,10 +50,14 @@ public final class PixelBattlePass extends JavaPlugin {
         ActionRegistry actionRegistry = BattlePlugin.getPlugin().getActionRegistry();
 
         actionRegistry.quest(CatchAction::new);
+        actionRegistry.quest(DefeatPvpAction::new);
         actionRegistry.quest(DefeatWildAction::new);
         actionRegistry.quest(EvolveAction::new);
         actionRegistry.quest(FishingAction::new);
         actionRegistry.quest(HatchingAction::new);
+        actionRegistry.quest(CleanFossilAction::new);
+        actionRegistry.quest(MoveAction::new);
+        actionRegistry.quest(CraftAction::new);
 
         LOGGER.info("Registered all actions successfully!");
     }

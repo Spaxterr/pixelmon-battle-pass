@@ -143,3 +143,35 @@ variable:
     rod: goodrod
 required-progress: 5
 ```
+
+#### Cleaning Fossils
+Triggers when a player retrieves a cleaned fossil from a fossil cleaner machine.
+Does not support the `specs` field since no Pokémon is involved.
+Can define a `root` field to require a specific fossil.
+Possible values are:
+* `helix`
+* `dome`
+* `amber`
+* `root`
+* `claw`
+* `skull`
+* `skull`
+* `armor`
+* `cover`
+* `plume`
+* `jaw`
+* `sail`
+* `bird`
+* `fish`
+* `drake`
+* `dino`
+
+**Example Quest: Clean 10 dino fossils**
+Clean 10 dino fossils with a fossil cleaner machine.
+```yml
+name: 'Archeologist'
+type: pixelmon_clean_fossil
+variable:
+    root: dino
+required-progress: 10
+```
